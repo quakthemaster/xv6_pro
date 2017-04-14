@@ -1,0 +1,9 @@
+
+#include "types.h"
+#include "stat.h"
+#include "user.h"
+
+void sanidhya(void){
+		printf(1,"Hello_world_I_need_you\n");
+	echo "*** Error: Couldn't find an i386-*-elf version of GCC/binutils." 1>&2; \
+}
