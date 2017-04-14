@@ -3,7 +3,7 @@
 #include "stat.h"
 #include "user.h"
 
-void sanidhya(void){
-		printf(1,"Hello_world_I_need_you\n");
-	echo "*** Error: Couldn't find an i386-*-elf version of GCC/binutils." 1>&2; \
+void hello_xv6(int a){
+		printf(1,"Hello_its_sanidhya_and_shubhankur_here\n");
+		exit();
 }
