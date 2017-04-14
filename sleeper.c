@@ -7,7 +7,7 @@
 void sleeper_program(int argc, char *argv[])
 {
 	int i;
-	int number = 0;
+	long int number = 0;
 	i=0;
 	char *string_input;
 	string_input = argv[1];
@@ -18,10 +18,12 @@ void sleeper_program(int argc, char *argv[])
             break;
         }
         i++;
-    }
+    }	
+	int clock_freq =165720;
+	int timer  = clock_freq * number;
 	printf(1,"So the timer you entered is %d\n",number);
 
-	i = number;
+	i = timer;
 	while(i)
 	{
 	wait();

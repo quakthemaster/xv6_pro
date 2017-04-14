@@ -80,6 +80,7 @@
 80106670 mappages
 80106700 deallocuvm.part.0
 8010a420 kmap
+00000000 
 80100270 consoleread
 8010653f vector242
 80105f96 vector119
@@ -217,7 +218,7 @@
 80102350 freerange
 80105fcc vector125
 80106bb0 allocuvm
-801056be trapret
+801056bd trapret
 80106407 vector216
 80105d9e vector63
 80105c51 vector26
@@ -356,7 +357,7 @@
 80105cf3 vector44
 8011269c lapic
 80105e25 vector78
-8010569e alltraps
+8010569d alltraps
 80106203 vector173
 80105f84 vector117
 80105e49 vector82

@@ -16,70 +16,71 @@ void sleeper_program(int argc, char *argv[])
    3:	53                   	push   %ebx
    4:	83 ec 14             	sub    $0x14,%esp
 	int i;
-	int number = 0;
+	long int number = 0;
 	i=0;
 	char *string_input;
 	string_input = argv[1];
    7:	8b 45 0c             	mov    0xc(%ebp),%eax
-   a:	8b 50 04             	mov    0x4(%eax),%edx
+   a:	8b 48 04             	mov    0x4(%eax),%ecx
 	while(string_input[i] != '\0'){
-   d:	0f be 02             	movsbl (%edx),%eax
-  10:	8d 48 d0             	lea    -0x30(%eax),%ecx
-  13:	80 f9 09             	cmp    $0x9,%cl
-  16:	77 63                	ja     7b <sleeper_program+0x7b>
-  18:	83 c2 01             	add    $0x1,%edx
+   d:	0f be 11             	movsbl (%ecx),%edx
+  10:	8d 42 d0             	lea    -0x30(%edx),%eax
+  13:	3c 09                	cmp    $0x9,%al
+  15:	77 64                	ja     7b <sleeper_program+0x7b>
+  17:	83 c1 01             	add    $0x1,%ecx
 
 
 void sleeper_program(int argc, char *argv[])
 {
 	int i;
-	int number = 0;
-  1b:	31 db                	xor    %ebx,%ebx
-  1d:	8d 76 00             	lea    0x0(%esi),%esi
+	long int number = 0;
+  1a:	31 c0                	xor    %eax,%eax
+  1c:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
 	i=0;
 	char *string_input;
 	string_input = argv[1];
 	while(string_input[i] != '\0'){
         if(string_input[i] >= '0' && string_input[i] <= '9'){
             number = number*10 + string_input[i] - '0';
-  20:	8d 0c 9b             	lea    (%ebx,%ebx,4),%ecx
-  23:	83 c2 01             	add    $0x1,%edx
-  26:	8d 5c 48 d0          	lea    -0x30(%eax,%ecx,2),%ebx
+  20:	8d 04 80             	lea    (%eax,%eax,4),%eax
+  23:	83 c1 01             	add    $0x1,%ecx
+  26:	8d 44 42 d0          	lea    -0x30(%edx,%eax,2),%eax
 	int i;
-	int number = 0;
+	long int number = 0;
 	i=0;
 	char *string_input;
 	string_input = argv[1];
 	while(string_input[i] != '\0'){
-  2a:	0f be 42 ff          	movsbl -0x1(%edx),%eax
-  2e:	8d 48 d0             	lea    -0x30(%eax),%ecx
-  31:	80 f9 09             	cmp    $0x9,%cl
+  2a:	0f be 51 ff          	movsbl -0x1(%ecx),%edx
+  2e:	8d 5a d0             	lea    -0x30(%edx),%ebx
+  31:	80 fb 09             	cmp    $0x9,%bl
   34:	76 ea                	jbe    20 <sleeper_program+0x20>
-        } else {
             break;
         }
         i++;
-    }
+    }	
+	int clock_freq =165720;
+	int timer  = clock_freq * number;
+  36:	69 d8 58 87 02 00    	imul   $0x28758,%eax,%ebx
 	printf(1,"So the timer you entered is %d\n",number);
-  36:	89 5c 24 08          	mov    %ebx,0x8(%esp)
-  3a:	c7 44 24 04 50 07 00 	movl   $0x750,0x4(%esp)
-  41:	00 
-  42:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
-  49:	e8 e2 03 00 00       	call   430 <printf>
+  3c:	89 44 24 08          	mov    %eax,0x8(%esp)
+  40:	c7 44 24 04 50 07 00 	movl   $0x750,0x4(%esp)
+  47:	00 
+  48:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
+  4f:	e8 dc 03 00 00       	call   430 <printf>
 
-	i = number;
+	i = timer;
 	while(i)
-  4e:	85 db                	test   %ebx,%ebx
-  50:	74 10                	je     62 <sleeper_program+0x62>
-  52:	8d b6 00 00 00 00    	lea    0x0(%esi),%esi
+  54:	85 db                	test   %ebx,%ebx
+  56:	74 0a                	je     62 <sleeper_program+0x62>
 	{
 	wait();
   58:	e8 8d 02 00 00       	call   2ea <wait>
-        i++;
-    }
+	int clock_freq =165720;
+	int timer  = clock_freq * number;
 	printf(1,"So the timer you entered is %d\n",number);
 
-	i = number;
+	i = timer;
 	while(i)
   5d:	83 eb 01             	sub    $0x1,%ebx
   60:	75 f6                	jne    58 <sleeper_program+0x58>
@@ -94,11 +95,11 @@ void sleeper_program(int argc, char *argv[])
   71:	e8 ba 03 00 00       	call   430 <printf>
 	exit();
   76:	e8 67 02 00 00       	call   2e2 <exit>
-        } else {
-            break;
         }
         i++;
-    }
+    }	
+	int clock_freq =165720;
+	int timer  = clock_freq * number;
 	printf(1,"So the timer you entered is %d\n",number);
   7b:	c7 44 24 08 00 00 00 	movl   $0x0,0x8(%esp)
   82:	00 
