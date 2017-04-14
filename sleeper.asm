@@ -1,5 +1,5 @@
 
-_hello_xv6:     file format elf32-i386
+_sleeper:     file format elf32-i386
 
 
 Disassembly of section .text:
@@ -57,8 +57,8 @@ void hello_xv6(int argc ,char *argv[]){
   3e:	39 f3                	cmp    %esi,%ebx
   40:	75 de                	jne    20 <hello_xv6+0x20>
 			printf(1,"Hello,Nice to meet you %s\n",argv[i]); 
-		}
-		exit();
+			}
+			exit();
   42:	e8 4b 02 00 00       	call   292 <exit>
   47:	66 90                	xchg   %ax,%ax
   49:	66 90                	xchg   %ax,%ax
