@@ -4,7 +4,7 @@
 #include "user.h"
 
 
-int stoi(int argc, char *argv[])
+void sleeper_program(int argc, char *argv[])
 {
 	int i;
 	int number = 0;
@@ -19,8 +19,16 @@ int stoi(int argc, char *argv[])
         }
         i++;
     }
-	printf(1,"%d",number+1);
-	return number;
+	printf(1,"So the timer you entered is %d\n",number);
+
+	i = number;
+	while(i)
+	{
+	wait();
+	i--
+	}
+	printf(1,"The process ended");
 	exit();
 	
 }
+
