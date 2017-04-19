@@ -19,9 +19,9 @@ void sleeper_program(int argc, char *argv[])
         }
         i++;
     }	
-	int clock_freq =198863;
+	int clock_freq =177203;
 	int timer  = clock_freq * number;
-	printf(1,"So the timer you entered is %d\n",number);
+	printf(1,"The timer is for %d seconds\n",number);
 
 	i = timer;
 	while(i)
@@ -29,7 +29,7 @@ void sleeper_program(int argc, char *argv[])
 	wait();
 	i--;
 	}
-	printf(1,"The process ended");
+	printf(1,"The waiting time is out\n");
 	exit();
 	
 }

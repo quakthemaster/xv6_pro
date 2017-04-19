@@ -59,14 +59,14 @@ void sleeper_program(int argc, char *argv[])
         }
         i++;
     }	
-	int clock_freq =165720;
+	int clock_freq =177203;
 	int timer  = clock_freq * number;
-  36:	69 d8 58 87 02 00    	imul   $0x28758,%eax,%ebx
-	printf(1,"So the timer you entered is %d\n",number);
+  36:	69 d8 33 b4 02 00    	imul   $0x2b433,%eax,%ebx
+	printf(0,"The timer is for %d seconds\n",number);
   3c:	89 44 24 08          	mov    %eax,0x8(%esp)
   40:	c7 44 24 04 50 07 00 	movl   $0x750,0x4(%esp)
   47:	00 
-  48:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
+  48:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
   4f:	e8 dc 03 00 00       	call   430 <printf>
 
 	i = timer;
@@ -76,9 +76,9 @@ void sleeper_program(int argc, char *argv[])
 	{
 	wait();
   58:	e8 8d 02 00 00       	call   2ea <wait>
-	int clock_freq =165720;
+	int clock_freq =177203;
 	int timer  = clock_freq * number;
-	printf(1,"So the timer you entered is %d\n",number);
+	printf(0,"The timer is for %d seconds\n",number);
 
 	i = timer;
 	while(i)
@@ -88,8 +88,8 @@ void sleeper_program(int argc, char *argv[])
 	wait();
 	i--;
 	}
-	printf(1,"The process ended");
-  62:	c7 44 24 04 70 07 00 	movl   $0x770,0x4(%esp)
+	printf(1,"The waiting time is out\n");
+  62:	c7 44 24 04 6d 07 00 	movl   $0x76d,0x4(%esp)
   69:	00 
   6a:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
   71:	e8 ba 03 00 00       	call   430 <printf>
@@ -98,14 +98,14 @@ void sleeper_program(int argc, char *argv[])
         }
         i++;
     }	
-	int clock_freq =165720;
+	int clock_freq =177203;
 	int timer  = clock_freq * number;
-	printf(1,"So the timer you entered is %d\n",number);
+	printf(0,"The timer is for %d seconds\n",number);
   7b:	c7 44 24 08 00 00 00 	movl   $0x0,0x8(%esp)
   82:	00 
   83:	c7 44 24 04 50 07 00 	movl   $0x750,0x4(%esp)
   8a:	00 
-  8b:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
+  8b:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
   92:	e8 99 03 00 00       	call   430 <printf>
   97:	eb c9                	jmp    62 <sleeper_program+0x62>
   99:	66 90                	xchg   %ax,%ax
@@ -528,7 +528,7 @@ void sleeper_program(int argc, char *argv[])
  3ca:	31 d2                	xor    %edx,%edx
  3cc:	8d 4f 01             	lea    0x1(%edi),%ecx
  3cf:	f7 f6                	div    %esi
- 3d1:	0f b6 92 8c 07 00 00 	movzbl 0x78c(%edx),%edx
+ 3d1:	0f b6 92 90 07 00 00 	movzbl 0x790(%edx),%edx
  3d8:	85 c0                	test   %eax,%eax
  3da:	88 14 0b             	mov    %dl,(%ebx,%ecx,1)
  3dd:	75 e9                	jne    3c8 <printint+0x38>
@@ -664,7 +664,7 @@ void sleeper_program(int argc, char *argv[])
  543:	8b 18                	mov    (%eax),%ebx
  545:	83 c0 04             	add    $0x4,%eax
  548:	89 45 d0             	mov    %eax,-0x30(%ebp)
- 54b:	b8 82 07 00 00       	mov    $0x782,%eax
+ 54b:	b8 86 07 00 00       	mov    $0x786,%eax
  550:	85 db                	test   %ebx,%ebx
  552:	0f 44 d8             	cmove  %eax,%ebx
  555:	0f b6 03             	movzbl (%ebx),%eax
@@ -712,7 +712,7 @@ void sleeper_program(int argc, char *argv[])
 
 000005d0 <free>:
  5d0:	55                   	push   %ebp
- 5d1:	a1 1c 0a 00 00       	mov    0xa1c,%eax
+ 5d1:	a1 20 0a 00 00       	mov    0xa20,%eax
  5d6:	89 e5                	mov    %esp,%ebp
  5d8:	57                   	push   %edi
  5d9:	56                   	push   %esi
@@ -748,7 +748,7 @@ void sleeper_program(int argc, char *argv[])
  623:	39 f1                	cmp    %esi,%ecx
  625:	74 23                	je     64a <free+0x7a>
  627:	89 08                	mov    %ecx,(%eax)
- 629:	a3 1c 0a 00 00       	mov    %eax,0xa1c
+ 629:	a3 20 0a 00 00       	mov    %eax,0xa20
  62e:	5b                   	pop    %ebx
  62f:	5e                   	pop    %esi
  630:	5f                   	pop    %edi
@@ -764,7 +764,7 @@ void sleeper_program(int argc, char *argv[])
  646:	39 f1                	cmp    %esi,%ecx
  648:	75 dd                	jne    627 <free+0x57>
  64a:	03 53 fc             	add    -0x4(%ebx),%edx
- 64d:	a3 1c 0a 00 00       	mov    %eax,0xa1c
+ 64d:	a3 20 0a 00 00       	mov    %eax,0xa20
  652:	89 50 04             	mov    %edx,0x4(%eax)
  655:	8b 53 f8             	mov    -0x8(%ebx),%edx
  658:	89 10                	mov    %edx,(%eax)
@@ -783,7 +783,7 @@ void sleeper_program(int argc, char *argv[])
  665:	53                   	push   %ebx
  666:	83 ec 0c             	sub    $0xc,%esp
  669:	8b 45 08             	mov    0x8(%ebp),%eax
- 66c:	8b 15 1c 0a 00 00    	mov    0xa1c,%edx
+ 66c:	8b 15 20 0a 00 00    	mov    0xa20,%edx
  672:	8d 78 07             	lea    0x7(%eax),%edi
  675:	c1 ef 03             	shr    $0x3,%edi
  678:	83 c7 01             	add    $0x1,%edi
@@ -806,7 +806,7 @@ void sleeper_program(int argc, char *argv[])
  6ba:	8b 48 04             	mov    0x4(%eax),%ecx
  6bd:	39 cf                	cmp    %ecx,%edi
  6bf:	76 3f                	jbe    700 <malloc+0xa0>
- 6c1:	39 05 1c 0a 00 00    	cmp    %eax,0xa1c
+ 6c1:	39 05 20 0a 00 00    	cmp    %eax,0xa20
  6c7:	89 c2                	mov    %eax,%edx
  6c9:	75 ed                	jne    6b8 <malloc+0x58>
  6cb:	83 ec 0c             	sub    $0xc,%esp
@@ -820,7 +820,7 @@ void sleeper_program(int argc, char *argv[])
  6e2:	83 c0 08             	add    $0x8,%eax
  6e5:	50                   	push   %eax
  6e6:	e8 e5 fe ff ff       	call   5d0 <free>
- 6eb:	8b 15 1c 0a 00 00    	mov    0xa1c,%edx
+ 6eb:	8b 15 20 0a 00 00    	mov    0xa20,%edx
  6f1:	83 c4 10             	add    $0x10,%esp
  6f4:	85 d2                	test   %edx,%edx
  6f6:	75 c0                	jne    6b8 <malloc+0x58>
@@ -833,7 +833,7 @@ void sleeper_program(int argc, char *argv[])
  706:	89 48 04             	mov    %ecx,0x4(%eax)
  709:	8d 04 c8             	lea    (%eax,%ecx,8),%eax
  70c:	89 78 04             	mov    %edi,0x4(%eax)
- 70f:	89 15 1c 0a 00 00    	mov    %edx,0xa1c
+ 70f:	89 15 20 0a 00 00    	mov    %edx,0xa20
  715:	83 c0 08             	add    $0x8,%eax
  718:	8d 65 f4             	lea    -0xc(%ebp),%esp
  71b:	5b                   	pop    %ebx
@@ -844,11 +844,11 @@ void sleeper_program(int argc, char *argv[])
  720:	8b 08                	mov    (%eax),%ecx
  722:	89 0a                	mov    %ecx,(%edx)
  724:	eb e9                	jmp    70f <malloc+0xaf>
- 726:	c7 05 1c 0a 00 00 20 	movl   $0xa20,0xa1c
+ 726:	c7 05 20 0a 00 00 24 	movl   $0xa24,0xa20
  72d:	0a 00 00 
- 730:	c7 05 20 0a 00 00 20 	movl   $0xa20,0xa20
+ 730:	c7 05 24 0a 00 00 24 	movl   $0xa24,0xa24
  737:	0a 00 00 
- 73a:	b8 20 0a 00 00       	mov    $0xa20,%eax
- 73f:	c7 05 24 0a 00 00 00 	movl   $0x0,0xa24
+ 73a:	b8 24 0a 00 00       	mov    $0xa24,%eax
+ 73f:	c7 05 28 0a 00 00 00 	movl   $0x0,0xa28
  746:	00 00 00 
  749:	e9 3e ff ff ff       	jmp    68c <malloc+0x2c>

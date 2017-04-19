@@ -16,7 +16,7 @@ void hello_xv6(int argc ,char *argv[]){
    3:	83 ec 18             	sub    $0x18,%esp
 		//int i;
 		//for(i = 1; i < argc; i++){
-			printf(1,"Hello,Nice to meet you %s\n",argv[1]); 
+			printf(1,"Hello,Nice to meet you... %s\n",argv[1]); 
    6:	8b 45 0c             	mov    0xc(%ebp),%eax
    9:	8b 40 04             	mov    0x4(%eax),%eax
    c:	c7 44 24 04 e0 06 00 	movl   $0x6e0,0x4(%esp)
@@ -448,7 +448,7 @@ void hello_xv6(int argc ,char *argv[]){
  35a:	31 d2                	xor    %edx,%edx
  35c:	8d 4f 01             	lea    0x1(%edi),%ecx
  35f:	f7 f6                	div    %esi
- 361:	0f b6 92 04 07 00 00 	movzbl 0x704(%edx),%edx
+ 361:	0f b6 92 08 07 00 00 	movzbl 0x708(%edx),%edx
  368:	85 c0                	test   %eax,%eax
  36a:	88 14 0b             	mov    %dl,(%ebx,%ecx,1)
  36d:	75 e9                	jne    358 <printint+0x38>
@@ -584,7 +584,7 @@ void hello_xv6(int argc ,char *argv[]){
  4d3:	8b 18                	mov    (%eax),%ebx
  4d5:	83 c0 04             	add    $0x4,%eax
  4d8:	89 45 d0             	mov    %eax,-0x30(%ebp)
- 4db:	b8 fb 06 00 00       	mov    $0x6fb,%eax
+ 4db:	b8 fe 06 00 00       	mov    $0x6fe,%eax
  4e0:	85 db                	test   %ebx,%ebx
  4e2:	0f 44 d8             	cmove  %eax,%ebx
  4e5:	0f b6 03             	movzbl (%ebx),%eax
@@ -632,7 +632,7 @@ void hello_xv6(int argc ,char *argv[]){
 
 00000560 <free>:
  560:	55                   	push   %ebp
- 561:	a1 94 09 00 00       	mov    0x994,%eax
+ 561:	a1 98 09 00 00       	mov    0x998,%eax
  566:	89 e5                	mov    %esp,%ebp
  568:	57                   	push   %edi
  569:	56                   	push   %esi
@@ -668,7 +668,7 @@ void hello_xv6(int argc ,char *argv[]){
  5b3:	39 f1                	cmp    %esi,%ecx
  5b5:	74 23                	je     5da <free+0x7a>
  5b7:	89 08                	mov    %ecx,(%eax)
- 5b9:	a3 94 09 00 00       	mov    %eax,0x994
+ 5b9:	a3 98 09 00 00       	mov    %eax,0x998
  5be:	5b                   	pop    %ebx
  5bf:	5e                   	pop    %esi
  5c0:	5f                   	pop    %edi
@@ -684,7 +684,7 @@ void hello_xv6(int argc ,char *argv[]){
  5d6:	39 f1                	cmp    %esi,%ecx
  5d8:	75 dd                	jne    5b7 <free+0x57>
  5da:	03 53 fc             	add    -0x4(%ebx),%edx
- 5dd:	a3 94 09 00 00       	mov    %eax,0x994
+ 5dd:	a3 98 09 00 00       	mov    %eax,0x998
  5e2:	89 50 04             	mov    %edx,0x4(%eax)
  5e5:	8b 53 f8             	mov    -0x8(%ebx),%edx
  5e8:	89 10                	mov    %edx,(%eax)
@@ -703,7 +703,7 @@ void hello_xv6(int argc ,char *argv[]){
  5f5:	53                   	push   %ebx
  5f6:	83 ec 0c             	sub    $0xc,%esp
  5f9:	8b 45 08             	mov    0x8(%ebp),%eax
- 5fc:	8b 15 94 09 00 00    	mov    0x994,%edx
+ 5fc:	8b 15 98 09 00 00    	mov    0x998,%edx
  602:	8d 78 07             	lea    0x7(%eax),%edi
  605:	c1 ef 03             	shr    $0x3,%edi
  608:	83 c7 01             	add    $0x1,%edi
@@ -726,7 +726,7 @@ void hello_xv6(int argc ,char *argv[]){
  64a:	8b 48 04             	mov    0x4(%eax),%ecx
  64d:	39 cf                	cmp    %ecx,%edi
  64f:	76 3f                	jbe    690 <malloc+0xa0>
- 651:	39 05 94 09 00 00    	cmp    %eax,0x994
+ 651:	39 05 98 09 00 00    	cmp    %eax,0x998
  657:	89 c2                	mov    %eax,%edx
  659:	75 ed                	jne    648 <malloc+0x58>
  65b:	83 ec 0c             	sub    $0xc,%esp
@@ -740,7 +740,7 @@ void hello_xv6(int argc ,char *argv[]){
  672:	83 c0 08             	add    $0x8,%eax
  675:	50                   	push   %eax
  676:	e8 e5 fe ff ff       	call   560 <free>
- 67b:	8b 15 94 09 00 00    	mov    0x994,%edx
+ 67b:	8b 15 98 09 00 00    	mov    0x998,%edx
  681:	83 c4 10             	add    $0x10,%esp
  684:	85 d2                	test   %edx,%edx
  686:	75 c0                	jne    648 <malloc+0x58>
@@ -753,7 +753,7 @@ void hello_xv6(int argc ,char *argv[]){
  696:	89 48 04             	mov    %ecx,0x4(%eax)
  699:	8d 04 c8             	lea    (%eax,%ecx,8),%eax
  69c:	89 78 04             	mov    %edi,0x4(%eax)
- 69f:	89 15 94 09 00 00    	mov    %edx,0x994
+ 69f:	89 15 98 09 00 00    	mov    %edx,0x998
  6a5:	83 c0 08             	add    $0x8,%eax
  6a8:	8d 65 f4             	lea    -0xc(%ebp),%esp
  6ab:	5b                   	pop    %ebx
@@ -764,11 +764,11 @@ void hello_xv6(int argc ,char *argv[]){
  6b0:	8b 08                	mov    (%eax),%ecx
  6b2:	89 0a                	mov    %ecx,(%edx)
  6b4:	eb e9                	jmp    69f <malloc+0xaf>
- 6b6:	c7 05 94 09 00 00 98 	movl   $0x998,0x994
+ 6b6:	c7 05 98 09 00 00 9c 	movl   $0x99c,0x998
  6bd:	09 00 00 
- 6c0:	c7 05 98 09 00 00 98 	movl   $0x998,0x998
+ 6c0:	c7 05 9c 09 00 00 9c 	movl   $0x99c,0x99c
  6c7:	09 00 00 
- 6ca:	b8 98 09 00 00       	mov    $0x998,%eax
- 6cf:	c7 05 9c 09 00 00 00 	movl   $0x0,0x99c
+ 6ca:	b8 9c 09 00 00       	mov    $0x99c,%eax
+ 6cf:	c7 05 a0 09 00 00 00 	movl   $0x0,0x9a0
  6d6:	00 00 00 
  6d9:	e9 3e ff ff ff       	jmp    61c <malloc+0x2c>

@@ -6,7 +6,7 @@
 void hello_xv6(int argc ,char *argv[]){
 		//int i;
 		//for(i = 1; i < argc; i++){
-			printf(1,"Hello,Nice to meet you %s\n",argv[1]); 
+			printf(1,"Hello,This is Niranjan's xv6... %s\n",argv[1]); 
 			
 		//}
 		exit();
