@@ -1,0 +1,40 @@
+A system call is a function that a userspace application will use, so as to ask for a specific service to be provided by the operating system. For instance with an sbrk(n) system call, a process can ask the kernel to grow its heap space by n bytes. Another example is the well known fork() system call in the UNIX world, that’s used to create a new process by cloning the caller process.
+
+The way applications signal the kernel that they need that service is by issueing a software interrupt. An interrupt is a signal generated that notifies the processor that it needs to stop what its currently doing, and handle the interrupt. This mechanism is also used to notify the processor that information it was seeking from the disks is in some buffer, ready to be extracted and processed, or, that a key was pressed in the keyboard. This is called a hardware interrupt.
+
+Before the processor stops to handle the interrupt generated, it needs to save the current state, so that it can resume the execution in this context after the interrupt has been handled. 
+
+In essence, it pushes the argument of the call to the stack, and puts the system call number (in the above code, that’s $SYS_exec) into %eax. The number is used to match the entry in an array that holds pointers to all the system calls. After that, it generates a software interrupt, with a code (in this case $T_SYSCALL) that’s used to index the interrupt descriptor tables and find the appropriate interrupt handler.
+
+The code that is specific to find the appropriate interrupt handler is called trap() and is available in the file trap.c. If trap() check’s out the trapnumber in the generated trapframe (a structure that represents the processor’s state at the time that the trap happened) to be equal to T_SYSCALL, it calls syscall() (the software interrupt handler) that’s available in syscall.c
+
+To add a syscall add it in syscall.c
+extern int sys_xorShift(void);
+[SYS_xorShift] sys_xorShift,
+
+If syscall for file then add it in -
+sysfile.c
+
+If syscall for proc then add it in -
+sysproc.c like this-
+
+int sys_xorShift(void)
+{
+	int a = 5 ;
+	a = a + 3;
+	return a;
+}
+
+add the following line in usys.c
+
+SYSCALL(xorShift)  // This is the system call that we are adding for XOR_SHIFT
+
+add the following line in syscall.h
+
+#define SYS_xorShift 22
+
+add the following line in user.h
+int xorShift(void);
+
+and check on the command line if the return shows syntax
+

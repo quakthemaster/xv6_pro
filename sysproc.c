@@ -7,6 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 
+#define static unsigned int seed=7;
 int
 sys_fork(void)
 {
@@ -76,7 +77,15 @@ sys_sleep(void)
   release(&tickslock);
   return 0;
 }
-
+//I am adding this syscall
+static unsigned int sys_random(void)
+{
+  seed ^= seed << 13;//13
+  seed ^= seed >> 17;//17
+  seed ^= seed << 5;//5
+  return seed;
+}
+	
 // return how many clock tick interrupts have occurred
 // since start.
 int
