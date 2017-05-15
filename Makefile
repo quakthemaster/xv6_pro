@@ -179,6 +179,8 @@ UPROGS=\
 	_sleeper\
 	_xor_shift_user\
 	_foo\
+	_ps\
+	_chng_priorty\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -247,7 +249,7 @@ qemu-nox-gdb: fs.img xv6.img .gdbinit
 
 EXTRA=\
 	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
-	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c hello_xv6.c sleeper.c xor_shift_user.c foo.c\
+	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c hello_xv6.c sleeper.c xor_shift_user.c foo.c ps.c chng_priorty.c\
 	printf.c umalloc.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\

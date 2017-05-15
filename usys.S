@@ -30,3 +30,5 @@ SYSCALL(random)  // This is the system call that we are adding for XOR_SHIFT
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+SYSCALL(cps)
+SYSCALL(chpr)

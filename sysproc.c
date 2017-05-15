@@ -85,7 +85,24 @@ static unsigned int sys_random(void)
   seed ^= seed << 5;//5
   return seed;
 }
-	
+//system call for changing priorty
+int
+sys_chpr (void)
+{
+  int pid, pr;
+  if(argint(0, &pid) < 0)
+    return -1;
+  if(argint(1, &pr) < 0)
+    return -1;
+
+  return chpr ( pid, pr );
+}
+//I am adding the cps syscall
+int 
+sys_cps(void)
+{ 	
+	return cps();
+}	
 // return how many clock tick interrupts have occurred
 // since start.
 int
@@ -98,3 +115,4 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+

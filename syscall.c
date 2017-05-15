@@ -99,7 +99,8 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_random(void);
-
+extern int sys_cps(void);
+extern int sys_chpr(void);
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
 [SYS_exit]    sys_exit,
@@ -123,6 +124,8 @@ static int (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_random] sys_random, // This is the change I have made for the xorshift
+[SYS_cps]    sys_cps,
+[SYS_chpr]   sys_chpr,
 };
 
 void
