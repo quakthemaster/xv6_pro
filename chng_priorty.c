@@ -5,7 +5,7 @@
 
 int
 main(int argc, char *argv[])
-{
+{		
   int priority, pid;
 
   if(argc < 3 ){

@@ -300,12 +300,13 @@ void
 scheduler(void)
 {
   struct proc *p;
+  struct proc *p1;
 
   for(;;){
     // Enable interrupts on this processor.
     sti();
-
-    // Loop over process table looking for process to run.
+    struct proc *highPriority = 0;
+    // Loop for runnable process.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
@@ -314,10 +315,19 @@ scheduler(void)
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
+      highPriority = p;
+      //for choosing one with highest priorty
+       for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        if(p1->state != RUNNABLE)
+          continue;
+        if ( highPriority->priority > p1->priority )   // larger value, lower priority 
+          highPriority = p1;
+      }
+      p =highPriority;
       proc = p;
       switchuvm(p);
       p->state = RUNNING;
-      cprintf("Process %s with pid %d running with createTime %d\n", p->name, p->pid, p->createTime);
+      cprintf("\n Schedular :: Process %s with pid %d running with createTime %d\n", p->name, p->pid, p->createTime);
       swtch(&cpu->scheduler, p->context);
       switchkvm();
 

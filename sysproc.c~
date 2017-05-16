@@ -87,8 +87,8 @@ static unsigned int sys_random(void)
 }
 //system call for changing priorty
 int
-sys_chpr (int, int)
-{
+sys_chpr (void)
+{ 
   int pid, pr;
   if(argint(0, &pid) < 0)
     return -1;

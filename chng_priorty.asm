@@ -10,7 +10,7 @@ Disassembly of section .text:
 
 int
 main(int argc, char *argv[])
-{
+{		
    0:	55                   	push   %ebp
    1:	89 e5                	mov    %esp,%ebp
    3:	56                   	push   %esi

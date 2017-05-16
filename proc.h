@@ -67,7 +67,7 @@ struct proc {
   int sleepTime;
   int readyTime;
   int runTime;
-  int priority;			// Priorty added by Sanidhya  // lower valu higher priorty
+  int priority;			// Priorty added by Sanidhya  // lower value higher priorty
   int tickcounter;
   char dum[8];
 };

@@ -69,6 +69,7 @@ sys_sleep(void)
   ticks0 = ticks;
   while(ticks - ticks0 < n){
     if(proc->killed){
+
       release(&tickslock);
       return -1;
     }
@@ -88,7 +89,7 @@ static unsigned int sys_random(void)
 //system call for changing priorty
 int
 sys_chpr (void)
-{
+{ 
   int pid, pr;
   if(argint(0, &pid) < 0)
     return -1;
