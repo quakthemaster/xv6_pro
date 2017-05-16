@@ -305,29 +305,25 @@ scheduler(void)
   for(;;){
     // Enable interrupts on this processor.
     sti();
-    struct proc *highPriority = 0;
-    // Loop for runnable process.
+   struct proc *highP = 0;
+    // Looking for runnable process 
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
-
-      // Switch to chosen process.  It is the process's job
-      // to release ptable.lock and then reacquire it
-      // before jumping back to us.
-      highPriority = p;
-      //for choosing one with highest priorty
-       for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+      highP = p;
+      // choose one with highest priority
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
         if(p1->state != RUNNABLE)
           continue;
-        if ( highPriority->priority > p1->priority )   // larger value, lower priority 
-          highPriority = p1;
+        if ( highP->priority > p1->priority )   // larger value, lower priority 
+          highP = p1;
       }
-      p =highPriority;
+      p = highP;
       proc = p;
       switchuvm(p);
-      p->state = RUNNING;
-      cprintf("\n Schedular :: Process %s with pid %d running with createTime %d\n", p->name, p->pid, p->createTime);
+    p->state = RUNNING;
+      //cprintf("\n Scheduler :: Process %s with pid %d running with createTime %d\n", p->name, p->pid, p->createTime);
       swtch(&cpu->scheduler, p->context);
       switchkvm();
 

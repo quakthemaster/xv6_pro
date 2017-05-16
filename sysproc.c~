@@ -6,8 +6,8 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
-
-#define static unsigned int seed=7;
+#include "stdint.h" 	 	
+#define static uint8_t seed=7;
 int
 sys_fork(void)
 {
@@ -69,6 +69,7 @@ sys_sleep(void)
   ticks0 = ticks;
   while(ticks - ticks0 < n){
     if(proc->killed){
+
       release(&tickslock);
       return -1;
     }
@@ -80,22 +81,24 @@ sys_sleep(void)
 //I am adding this syscall
 static unsigned int sys_random(void)
 {
-  seed ^= seed << 13;//13
-  seed ^= seed >> 17;//17
-  seed ^= seed << 5;//5
-  return seed;
+
+	  seed ^= seed << 7;//7
+	  seed ^= seed >> 5;//5
+	  seed ^= seed << 3;//3
+	  return seed;
 }
 //system call for changing priorty
 int
 sys_chpr (void)
 { 
-  int pid, pr;
+  int pr;
+  int pid;
   if(argint(0, &pid) < 0)
-    return -1;
+   return -1;
   if(argint(1, &pr) < 0)
-    return -1;
-
-  return chpr ( pid, pr );
+   return -1;
+ 
+ return chpr(pid,pr);
 }
 //I am adding the cps syscall
 int 

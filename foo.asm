@@ -41,7 +41,7 @@ main(int argc, char *argv[])
     n = atoi ( argv[1] ); //from command line
   27:	89 c7                	mov    %eax,%edi
   if ( n < 0 || n > 20 )
-  29:	0f 86 b3 00 00 00    	jbe    e2 <main+0xe2>
+  29:	0f 86 ab 00 00 00    	jbe    da <main+0xda>
     n = 2;
   2f:	bf 02 00 00 00       	mov    $0x2,%edi
 {
@@ -128,7 +128,7 @@ main(int argc, char *argv[])
   92:	39 fb                	cmp    %edi,%ebx
   94:	7c d1                	jl     67 <main+0x67>
   96:	66 90                	xchg   %ax,%ax
-      for ( z = 0; z < 8000000.0; z += 0.01 )
+      for ( z = 0; z < 8000; z += 1 )
          x =  x + 3.14 * 89.64;   // useless calculations to consume CPU time
       break;
     }
@@ -155,26 +155,30 @@ main(int argc, char *argv[])
   b1:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
   b8:	89 44 24 08          	mov    %eax,0x8(%esp)
   bc:	e8 af 03 00 00       	call   470 <printf>
-      for ( z = 0; z < 8000000.0; z += 0.01 )
+      for ( z = 0; z < 8000; z += 1 )
   c1:	d9 ee                	fldz   
-  c3:	dd 05 20 08 00 00    	fldl   0x820
-  c9:	8d b4 26 00 00 00 00 	lea    0x0(%esi,%eiz,1),%esi
-  d0:	dc c1                	fadd   %st,%st(1)
-  d2:	d9 05 28 08 00 00    	flds   0x828
-  d8:	df ea                	fucomip %st(2),%st
-  da:	77 f4                	ja     d0 <main+0xd0>
-  dc:	dd d8                	fstp   %st(0)
-  de:	dd d8                	fstp   %st(0)
-  e0:	eb b6                	jmp    98 <main+0x98>
+  c3:	d9 e8                	fld1   
+  c5:	8d 76 00             	lea    0x0(%esi),%esi
+  c8:	dc c1                	fadd   %st,%st(1)
+  ca:	d9 05 1c 08 00 00    	flds   0x81c
+  d0:	df ea                	fucomip %st(2),%st
+  d2:	77 f4                	ja     c8 <main+0xc8>
+  d4:	dd d8                	fstp   %st(0)
+  d6:	dd d8                	fstp   %st(0)
+  d8:	eb be                	jmp    98 <main+0x98>
     n = atoi ( argv[1] ); //from command line
   if ( n < 0 || n > 20 )
     n = 2;
   x = 0;
   id = 0;
   for ( k = 0; k < n; k++ ) {
-  e2:	85 c0                	test   %eax,%eax
-  e4:	74 b2                	je     98 <main+0x98>
-  e6:	e9 49 ff ff ff       	jmp    34 <main+0x34>
+  da:	85 c0                	test   %eax,%eax
+  dc:	74 ba                	je     98 <main+0x98>
+  de:	66 90                	xchg   %ax,%ax
+  e0:	e9 4f ff ff ff       	jmp    34 <main+0x34>
+  e5:	66 90                	xchg   %ax,%ax
+  e7:	66 90                	xchg   %ax,%ax
+  e9:	66 90                	xchg   %ax,%ax
   eb:	66 90                	xchg   %ax,%ax
   ed:	66 90                	xchg   %ax,%ax
   ef:	90                   	nop
@@ -877,7 +881,7 @@ printint(int fd, int xx, int base, int sgn)
  402:	31 d2                	xor    %edx,%edx
  404:	f7 f6                	div    %esi
  406:	8d 4f 01             	lea    0x1(%edi),%ecx
- 409:	0f b6 92 33 08 00 00 	movzbl 0x833(%edx),%edx
+ 409:	0f b6 92 27 08 00 00 	movzbl 0x827(%edx),%edx
   }while((x /= base) != 0);
  410:	85 c0                	test   %eax,%eax
     x = xx;
@@ -1242,7 +1246,7 @@ putc(int fd, char c)
         ap++;
         if(s == 0)
           s = "(null)";
- 5a1:	b8 2c 08 00 00       	mov    $0x82c,%eax
+ 5a1:	b8 20 08 00 00       	mov    $0x820,%eax
  5a6:	85 ff                	test   %edi,%edi
  5a8:	0f 44 f8             	cmove  %eax,%edi
         while(*s != 0){
@@ -1419,7 +1423,7 @@ free(void *ap)
 
   bp = (Header*)ap - 1;
   for(p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
- 661:	a1 ac 0a 00 00       	mov    0xaac,%eax
+ 661:	a1 a0 0a 00 00       	mov    0xaa0,%eax
 static Header base;
 static Header *freep;
 
@@ -1497,7 +1501,7 @@ free(void *ap)
     p->s.ptr = bp;
  6a7:	89 10                	mov    %edx,(%eax)
   freep = p;
- 6a9:	a3 ac 0a 00 00       	mov    %eax,0xaac
+ 6a9:	a3 a0 0a 00 00       	mov    %eax,0xaa0
 }
  6ae:	5b                   	pop    %ebx
  6af:	5e                   	pop    %esi
@@ -1531,7 +1535,7 @@ free(void *ap)
   } else
     p->s.ptr = bp;
   freep = p;
- 6d2:	a3 ac 0a 00 00       	mov    %eax,0xaac
+ 6d2:	a3 a0 0a 00 00       	mov    %eax,0xaa0
     bp->s.size += p->s.ptr->s.size;
     bp->s.ptr = p->s.ptr->s.ptr;
   } else
@@ -1573,7 +1577,7 @@ malloc(uint nbytes)
   nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
  6f9:	8b 45 08             	mov    0x8(%ebp),%eax
   if((prevp = freep) == 0){
- 6fc:	8b 1d ac 0a 00 00    	mov    0xaac,%ebx
+ 6fc:	8b 1d a0 0a 00 00    	mov    0xaa0,%ebx
 malloc(uint nbytes)
 {
   Header *p, *prevp;
@@ -1631,7 +1635,7 @@ morecore(uint nu)
       return (void*)(p + 1);
     }
     if(p == freep)
- 73b:	3b 15 ac 0a 00 00    	cmp    0xaac,%edx
+ 73b:	3b 15 a0 0a 00 00    	cmp    0xaa0,%edx
  741:	75 ed                	jne    730 <malloc+0x40>
 morecore(uint nu)
 {
@@ -1660,7 +1664,7 @@ morecore(uint nu)
  76a:	89 04 24             	mov    %eax,(%esp)
  76d:	e8 ee fe ff ff       	call   660 <free>
   return freep;
- 772:	8b 15 ac 0a 00 00    	mov    0xaac,%edx
+ 772:	8b 15 a0 0a 00 00    	mov    0xaa0,%edx
       }
       freep = prevp;
       return (void*)(p + 1);
@@ -1695,7 +1699,7 @@ morecore(uint nu)
  794:	89 70 04             	mov    %esi,0x4(%eax)
       }
       freep = prevp;
- 797:	89 15 ac 0a 00 00    	mov    %edx,0xaac
+ 797:	89 15 a0 0a 00 00    	mov    %edx,0xaa0
       return (void*)(p + 1);
  79d:	83 c0 08             	add    $0x8,%eax
     }
@@ -1725,19 +1729,19 @@ morecore(uint nu)
   nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
   if((prevp = freep) == 0){
     base.s.ptr = freep = prevp = &base;
- 7ae:	c7 05 ac 0a 00 00 b0 	movl   $0xab0,0xaac
+ 7ae:	c7 05 a0 0a 00 00 a4 	movl   $0xaa4,0xaa0
  7b5:	0a 00 00 
     base.s.size = 0;
- 7b8:	ba b0 0a 00 00       	mov    $0xab0,%edx
+ 7b8:	ba a4 0a 00 00       	mov    $0xaa4,%edx
   Header *p, *prevp;
   uint nunits;
 
   nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
   if((prevp = freep) == 0){
     base.s.ptr = freep = prevp = &base;
- 7bd:	c7 05 b0 0a 00 00 b0 	movl   $0xab0,0xab0
+ 7bd:	c7 05 a4 0a 00 00 a4 	movl   $0xaa4,0xaa4
  7c4:	0a 00 00 
     base.s.size = 0;
- 7c7:	c7 05 b4 0a 00 00 00 	movl   $0x0,0xab4
+ 7c7:	c7 05 a8 0a 00 00 00 	movl   $0x0,0xaa8
  7ce:	00 00 00 
  7d1:	e9 46 ff ff ff       	jmp    71c <malloc+0x2c>
