@@ -129,7 +129,7 @@ main(int argc, char *argv[])
   94:	7c d1                	jl     67 <main+0x67>
   96:	66 90                	xchg   %ax,%ax
       for ( z = 0; z < 8000; z += 1 )
-         x =  x + 3.14 * 89.64;   // useless calculations to consume CPU time
+         x =  x + 3;   // useless calculations to consume CPU time
       break;
     }
   }

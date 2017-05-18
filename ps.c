@@ -8,7 +8,7 @@ main(int argc, char *argv[])
 {
  int i;
   i =cps(); 
-  printf(1,"The number of running process is %d and the number of sleeping process is %d\n",i,i);
+  printf(1,"The number of processes to be scheduled is %d",i,i);
 
   exit();
 }

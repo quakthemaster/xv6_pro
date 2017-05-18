@@ -18,7 +18,7 @@ main(int argc, char *argv[])
  int i;
   i =cps(); 
    9:	e8 ec 02 00 00       	call   2fa <cps>
-  printf(1,"The number of running process is %d and the number of sleeping process is %d\n",i,i);
+  printf(1,"The number of processes to be scheduled is %d",i,i);
    e:	c7 44 24 04 18 07 00 	movl   $0x718,0x4(%esp)
   15:	00 
   16:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
@@ -728,7 +728,7 @@ printint(int fd, int xx, int base, int sgn)
  342:	31 d2                	xor    %edx,%edx
  344:	f7 f6                	div    %esi
  346:	8d 4f 01             	lea    0x1(%edi),%ecx
- 349:	0f b6 92 6f 07 00 00 	movzbl 0x76f(%edx),%edx
+ 349:	0f b6 92 4f 07 00 00 	movzbl 0x74f(%edx),%edx
   }while((x /= base) != 0);
  350:	85 c0                	test   %eax,%eax
     x = xx;
@@ -1093,7 +1093,7 @@ putc(int fd, char c)
         ap++;
         if(s == 0)
           s = "(null)";
- 4e1:	b8 68 07 00 00       	mov    $0x768,%eax
+ 4e1:	b8 48 07 00 00       	mov    $0x748,%eax
  4e6:	85 ff                	test   %edi,%edi
  4e8:	0f 44 f8             	cmove  %eax,%edi
         while(*s != 0){
@@ -1270,7 +1270,7 @@ free(void *ap)
 
   bp = (Header*)ap - 1;
   for(p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
- 5a1:	a1 e4 09 00 00       	mov    0x9e4,%eax
+ 5a1:	a1 c4 09 00 00       	mov    0x9c4,%eax
 static Header base;
 static Header *freep;
 
@@ -1348,7 +1348,7 @@ free(void *ap)
     p->s.ptr = bp;
  5e7:	89 10                	mov    %edx,(%eax)
   freep = p;
- 5e9:	a3 e4 09 00 00       	mov    %eax,0x9e4
+ 5e9:	a3 c4 09 00 00       	mov    %eax,0x9c4
 }
  5ee:	5b                   	pop    %ebx
  5ef:	5e                   	pop    %esi
@@ -1382,7 +1382,7 @@ free(void *ap)
   } else
     p->s.ptr = bp;
   freep = p;
- 612:	a3 e4 09 00 00       	mov    %eax,0x9e4
+ 612:	a3 c4 09 00 00       	mov    %eax,0x9c4
     bp->s.size += p->s.ptr->s.size;
     bp->s.ptr = p->s.ptr->s.ptr;
   } else
@@ -1424,7 +1424,7 @@ malloc(uint nbytes)
   nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
  639:	8b 45 08             	mov    0x8(%ebp),%eax
   if((prevp = freep) == 0){
- 63c:	8b 1d e4 09 00 00    	mov    0x9e4,%ebx
+ 63c:	8b 1d c4 09 00 00    	mov    0x9c4,%ebx
 malloc(uint nbytes)
 {
   Header *p, *prevp;
@@ -1482,7 +1482,7 @@ morecore(uint nu)
       return (void*)(p + 1);
     }
     if(p == freep)
- 67b:	3b 15 e4 09 00 00    	cmp    0x9e4,%edx
+ 67b:	3b 15 c4 09 00 00    	cmp    0x9c4,%edx
  681:	75 ed                	jne    670 <malloc+0x40>
 morecore(uint nu)
 {
@@ -1511,7 +1511,7 @@ morecore(uint nu)
  6aa:	89 04 24             	mov    %eax,(%esp)
  6ad:	e8 ee fe ff ff       	call   5a0 <free>
   return freep;
- 6b2:	8b 15 e4 09 00 00    	mov    0x9e4,%edx
+ 6b2:	8b 15 c4 09 00 00    	mov    0x9c4,%edx
       }
       freep = prevp;
       return (void*)(p + 1);
@@ -1546,7 +1546,7 @@ morecore(uint nu)
  6d4:	89 70 04             	mov    %esi,0x4(%eax)
       }
       freep = prevp;
- 6d7:	89 15 e4 09 00 00    	mov    %edx,0x9e4
+ 6d7:	89 15 c4 09 00 00    	mov    %edx,0x9c4
       return (void*)(p + 1);
  6dd:	83 c0 08             	add    $0x8,%eax
     }
@@ -1576,19 +1576,19 @@ morecore(uint nu)
   nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
   if((prevp = freep) == 0){
     base.s.ptr = freep = prevp = &base;
- 6ee:	c7 05 e4 09 00 00 e8 	movl   $0x9e8,0x9e4
+ 6ee:	c7 05 c4 09 00 00 c8 	movl   $0x9c8,0x9c4
  6f5:	09 00 00 
     base.s.size = 0;
- 6f8:	ba e8 09 00 00       	mov    $0x9e8,%edx
+ 6f8:	ba c8 09 00 00       	mov    $0x9c8,%edx
   Header *p, *prevp;
   uint nunits;
 
   nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
   if((prevp = freep) == 0){
     base.s.ptr = freep = prevp = &base;
- 6fd:	c7 05 e8 09 00 00 e8 	movl   $0x9e8,0x9e8
+ 6fd:	c7 05 c8 09 00 00 c8 	movl   $0x9c8,0x9c8
  704:	09 00 00 
     base.s.size = 0;
- 707:	c7 05 ec 09 00 00 00 	movl   $0x0,0x9ec
+ 707:	c7 05 cc 09 00 00 00 	movl   $0x0,0x9cc
  70e:	00 00 00 
  711:	e9 46 ff ff ff       	jmp    65c <malloc+0x2c>

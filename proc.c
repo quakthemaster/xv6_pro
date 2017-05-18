@@ -6,6 +6,8 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "stdint.h"
+
 
 struct {
   struct spinlock lock;
@@ -50,7 +52,7 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
   p->createTime = ticks;
-  p->priority =10 ;
+  p->length_of_job =10 ;
   p->runTime = 0;
   p->sleepTime =0;
   release(&ptable.lock);
@@ -88,7 +90,7 @@ userinit(void)
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
   p = allocproc();
-  
+
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
@@ -136,16 +138,16 @@ growproc(int n)
   switchuvm(proc);
   return 0;
 }
-//change priority
+//change length_of_job
 int
-chpr( int pid, int priority )
+chpr( int pid, int length_of_job )
 {
   struct proc *p;
-  
+
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid ) {
-        p->priority = priority;
+        p->length_of_job = length_of_job;
         break;
     }
   }
@@ -245,6 +247,32 @@ exit(void)
   panic("zombie exit");
 }
 
+
+int cps()
+{
+  struct proc *p;
+
+  // Enable interrupts on this processor.
+  sti();
+  int i,j;
+  i = 0;
+  j = 0;
+    // Loop over process table looking for process with pid.
+  acquire(&ptable.lock);
+  cprintf("name \t pid \t state \t length of job\n");
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+       if ( p->state == SLEEPING ){
+        cprintf("%s \t %d  \t SLEEPING \t %d \n ", p->name, p->pid ,p->length_of_job);
+	i = i +1;}
+      else if ( p->state == RUNNING ){
+        cprintf("%s \t %d  \t RUNNING \t %d \n ", p->name, p->pid,p->length_of_job );
+	j = j+1;}
+  }
+
+  release(&ptable.lock);
+  return i+j;
+}
+
 // Wait for a child process to exit and return its pid.
 // Return -1 if this process has no children.
 int
@@ -296,34 +324,146 @@ wait(void)
 //  - swtch to start running that process
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
+//This is the scheduler with shortest job first scheduling mechanism. We give low priority with process with larger length of job
+/*
 void
 scheduler(void)
 {
   struct proc *p;
   struct proc *p1;
-
   for(;;){
     // Enable interrupts on this processor.
     sti();
    struct proc *highP = 0;
-    // Looking for runnable process 
+    // Looking for runnable process
     acquire(&ptable.lock);
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    for(p = ptable.proc ; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
       highP = p;
-      // choose one with highest priority
+      // choose one with lowest length_of_job
       for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
         if(p1->state != RUNNABLE)
           continue;
-        if ( highP->priority > p1->priority )   // larger value, lower priority 
+        if ( highP->length_of_job > p1->length_of_job )   // larger length_of_job, lower priorty
           highP = p1;
       }
       p = highP;
       proc = p;
       switchuvm(p);
     p->state = RUNNING;
-      //cprintf("\n Scheduler :: Process %s with pid %d running with createTime %d\n", p->name, p->pid, p->createTime);
+      cprintf("\n Scheduler :: Process %s with pid %d running with length as %d \n", p->name, p->pid, p->length_of_job);
+      swtch(&cpu->scheduler, p->context);
+      switchkvm();
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      proc = 0;
+    }
+    release(&ptable.lock);
+
+  }
+}
+*/
+//Schedular with Random scheduling
+/*
+void
+scheduler(void)
+{
+  static uint8_t seed=7;
+  struct proc *p;
+  int numbP;
+	numbP=0;
+  for(;;){
+    	  seed ^= seed << 7;//7
+	  seed ^= seed >> 5;//5
+	  seed ^= seed << 3;//3
+    sti();
+   struct proc *randP = 0;
+    // Looking for runnable process
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	numbP = numbP+1;
+   }
+	if(numbP <3){
+   	int j;
+	j = -1 ;
+
+ 	int chosenP;
+	chosenP = seed%numbP;
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	j = j+1;
+	if(j == chosenP){
+		randP = p;
+		break;
+	}
+	p = randP;
+	proc = p;
+      switchuvm(p);
+    p->state = RUNNING;
+      cprintf("\n Scheduler :: Process %s with pid %d random number as %d \n and total processes are %d", p->name, p->pid, seed,numbP);
+      swtch(&cpu->scheduler, p->context);
+      switchkvm();
+	}
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      proc = 0;
+	}
+    	else{
+
+    // Loop over process table looking for process to run.
+     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state != RUNNABLE)
+      proc = p;
+      switchuvm(p);
+      p->state = RUNNING;
+      swtch(&cpu->scheduler, p->context);
+      switchkvm();
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      proc = 0;
+    }
+
+
+  }
+  release(&ptable.lock);
+}
+}
+*/
+
+void
+scheduler(void)
+{
+  struct proc *p;
+  struct proc *p1;
+  static uint8_t seed=7;
+  for(;;){
+    // Enable interrupts on this processor.
+    sti();
+	  seed ^= seed << 7;//7
+	  seed ^= seed >> 5;//5
+	  seed ^= seed << 3;//3
+   struct proc *highP = 0;
+    // Looking for runnable process
+    acquire(&ptable.lock);
+    for(p = ptable.proc ; p < &ptable.proc[NPROC]; p++){
+	p -> length_of_job = seed;
+      if(p->state != RUNNABLE)
+        continue;
+      highP = p;
+      // choose one with lowest length_of_job
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        if(p1->state != RUNNABLE)
+          continue;
+        if ( highP->length_of_job > p1->length_of_job )   // larger length_of_job, lower priorty
+          highP = p1;
+      }
+      p = highP;
+      proc = p;
+      switchuvm(p);
+    p->state = RUNNING;
+      cprintf("\n Scheduler :: Process %s with pid %d running with length as %d \n", p->name, p->pid, p->length_of_job);
       swtch(&cpu->scheduler, p->context);
       switchkvm();
 
@@ -392,30 +532,6 @@ forkret(void)
   // Return to "caller", actually trapret (see allocproc).
 }
 //current process status
-int cps()
-{
-  struct proc *p;
-  
-  // Enable interrupts on this processor.
-  sti();
-  int i,j;
-  i = 0;
-  j = 0;
-    // Loop over process table looking for process with pid.
-  acquire(&ptable.lock);
-  cprintf("name \t pid \t state \t sanidhya_priority\n");
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-       if ( p->state == SLEEPING ){
-        cprintf("%s \t %d  \t SLEEPING \t %d \n ", p->name, p->pid ,p->priority);
-	i = i +1;}
-      else if ( p->state == RUNNING ){
-        cprintf("%s \t %d  \t RUNNING \t %d \n ", p->name, p->pid,p->priority );
-	j = j+1;}
-  }
-  
-  release(&ptable.lock);
-  return i;
-}
 
 // Atomically release lock and sleep on chan.
 // Reacquires lock when awakened.
@@ -535,3 +651,4 @@ procdump(void)
     cprintf("\n");
   }
 }
+
