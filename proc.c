@@ -8,7 +8,6 @@
 #include "spinlock.h"
 #include "stdint.h"
 
-
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -325,7 +324,7 @@ wait(void)
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
 //This is the scheduler with shortest job first scheduling mechanism. We give low priority with process with larger length of job
-/*
+
 void
 scheduler(void)
 {
@@ -352,7 +351,7 @@ scheduler(void)
       proc = p;
       switchuvm(p);
     p->state = RUNNING;
-      cprintf("\n Scheduler :: Process %s with pid %d running with length as %d \n", p->name, p->pid, p->length_of_job);
+    cprintf("\n Scheduler :: Process %s with pid %d running with length as %d \n", p->name, p->pid, p->length_of_job);
       swtch(&cpu->scheduler, p->context);
       switchkvm();
 
@@ -364,7 +363,7 @@ scheduler(void)
 
   }
 }
-*/
+
 //Schedular with Random scheduling
 /*
 void
@@ -430,7 +429,7 @@ scheduler(void)
   release(&ptable.lock);
 }
 }
-*/
+
 
 void
 scheduler(void)
@@ -444,26 +443,26 @@ scheduler(void)
 	  seed ^= seed << 7;//7
 	  seed ^= seed >> 5;//5
 	  seed ^= seed << 3;//3
-   struct proc *highP = 0;
+   struct proc *randP = 0;
     // Looking for runnable process
     acquire(&ptable.lock);
     for(p = ptable.proc ; p < &ptable.proc[NPROC]; p++){
 	p -> length_of_job = seed;
       if(p->state != RUNNABLE)
         continue;
-      highP = p;
+      randP = p;
       // choose one with lowest length_of_job
       for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
         if(p1->state != RUNNABLE)
           continue;
-        if ( highP->length_of_job > p1->length_of_job )   // larger length_of_job, lower priorty
-          highP = p1;
+        if ( randP->length_of_job > p1->length_of_job )   // we check the length_of_job of each process more 
+          randP = p1;
       }
-      p = highP;
+      p = randP;
       proc = p;
       switchuvm(p);
     p->state = RUNNING;
-      cprintf("\n Scheduler :: Process %s with pid %d running with length as %d \n", p->name, p->pid, p->length_of_job);
+      cprintf("\n Scheduler :: Process %s with pid %d running with randomness as %d \n", p->name, p->pid, p->length_of_job);
       swtch(&cpu->scheduler, p->context);
       switchkvm();
 
@@ -475,7 +474,7 @@ scheduler(void)
 
   }
 }
-
+*/
 // Enter scheduler.  Must hold only ptable.lock
 // and have changed proc->state. Saves and restores
 // intena because intena is a property of this

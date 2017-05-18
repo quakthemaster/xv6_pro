@@ -18,7 +18,7 @@ main(int argc, char *argv[])
    5:	83 e4 f0             	and    $0xfffffff0,%esp
    8:	83 ec 10             	sub    $0x10,%esp
    b:	8b 5d 0c             	mov    0xc(%ebp),%ebx
-  int priority, pid;
+  int length_of_job, pid;
 
   if(argc < 3 ){
    e:	83 7d 08 02          	cmpl   $0x2,0x8(%ebp)
@@ -36,11 +36,11 @@ main(int argc, char *argv[])
   30:	89 04 24             	mov    %eax,(%esp)
   33:	e8 08 02 00 00       	call   240 <atoi>
   38:	89 c6                	mov    %eax,%esi
-  priority = atoi ( argv[2] );
+  length_of_job = atoi ( argv[2] );
   3a:	8b 43 08             	mov    0x8(%ebx),%eax
   3d:	89 04 24             	mov    %eax,(%esp)
   40:	e8 fb 01 00 00       	call   240 <atoi>
-  if ( priority < 0 || priority > 20 ) {
+  if ( length_of_job < 0 || length_of_job > 20 ) {
   45:	83 f8 14             	cmp    $0x14,%eax
   48:	76 19                	jbe    63 <main+0x63>
       printf(2, "Invalid length (0-20)!\n" );
@@ -51,7 +51,7 @@ main(int argc, char *argv[])
       exit();
   5e:	e8 3f 02 00 00       	call   2a2 <exit>
   }
-  chpr( pid, priority );
+  chpr( pid, length_of_job );
   63:	89 44 24 04          	mov    %eax,0x4(%esp)
   67:	89 34 24             	mov    %esi,(%esp)
   6a:	e8 e3 02 00 00       	call   352 <chpr>

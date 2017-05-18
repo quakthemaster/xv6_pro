@@ -1,0 +1,89 @@
+commit b56758f01662a492a2508c582f80c21c53d6ccf0
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Thu May 18 19:34:00 2017 +0530
+
+    Finalising the changes
+
+commit b7a5db6deaff62c8badadbd2b3605b4cfd6177bf
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Wed May 17 00:34:19 2017 +0530
+
+    Doing phase 3 part one
+
+commit d67541b85d040fcf7f65b6daf309ca205bb4cb2b
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Tue May 16 17:04:30 2017 +0530
+
+    Have implemented priority scheduling next step will be to change it to random scheduling
+
+commit 80fbbee7238a3b0221b36f8eecfb8c83e901d0e9
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Tue May 16 04:11:49 2017 +0530
+
+    I have assigned priorties to process and tried to change them
+
+commit 4fa918b7f55822475f43b40bc820d66affb12f2d
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Tue May 16 01:36:56 2017 +0530
+
+    scheduling part 2
+
+commit bb588255d96ab6178245e2ec2e3b39063f188edb
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Sun May 14 13:39:56 2017 +0530
+
+     I have made a syscall and random number generator
+
+commit 99ead128652511706be0a6179cc84f43fec7f80b
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Thu Apr 20 01:29:47 2017 +0530
+
+    Going to learn Scheduling
+
+commit 2731a9e398f674b3502e61b659671538bf43a826
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Fri Apr 14 23:20:49 2017 +0530
+
+    finally done
+
+commit 203c1c71478fa2e6ae6b088f16f4420b41bc5064
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Fri Apr 14 19:30:28 2017 +0530
+
+    This is sleeper implemented before finding the system clock
+
+commit cc811c77381b23b1b8e87281ae37e8a3f4d626e8
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Fri Apr 14 19:20:16 2017 +0530
+
+    This is after string to integer conversion
+
+commit 6bbd82ab7573892a1ae031d0fcfdc4872e6969d4
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Fri Apr 14 17:25:22 2017 +0530
+
+    looking for the sleeper function
+
+commit aa33e7391e618c80204404962eddfcf81420f27b
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Fri Apr 14 15:47:52 2017 +0530
+
+    After the proper functioning of hello_xv6
+
+commit 2814f128a485d1ee668ef0b5cb377c605ac5f9ab
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Fri Apr 14 14:52:55 2017 +0530
+
+    Commit after the hello_xv6 change
+
+commit 1d59289426aa98012e6e592d6b8d14ad5832320f
+Author: quakthemaster <vijaywatsanidhya@gmail.com>
+Date:   Tue Apr 11 23:15:55 2017 +0530
+
+    first commit
+
+commit 1015931093a47ae84d7c6175569d89fbeaea856b
+Author: Sanidhya Vijaywat <vijaywatsanidhya@gmail.com>
+Date:   Tue Apr 11 22:47:37 2017 +0530
+
+    Initial commit

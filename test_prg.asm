@@ -79,7 +79,7 @@ main(int argc, char *argv[])
   4e:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
   55:	89 44 24 08          	mov    %eax,0x8(%esp)
   59:	e8 12 04 00 00       	call   470 <printf>
-      wait ();
+      wait();
   5e:	e8 b7 02 00 00       	call   31a <wait>
     n = atoi ( argv[1] ); //from command line
   if ( n < 0 || n > 20 )
@@ -130,10 +130,10 @@ main(int argc, char *argv[])
   96:	66 90                	xchg   %ax,%ax
       for ( z = 0; z < 8000; z += 1 )
          x =  x + 3;   // useless calculations to consume CPU time
-      break;
+      	break;
     }
   }
-  exit();
+ exit();
   98:	e8 75 02 00 00       	call   312 <exit>
 {
   int  k, n, id;
@@ -146,7 +146,7 @@ main(int argc, char *argv[])
       printf(1, "%d failed in fork!\n", getpid() );
     } else if ( id > 0 ) {  //parent
       printf(1, "Parent %d creating child  %d\n", getpid(), id );
-      wait ();
+      wait();
    } else {   // child
       printf(1, "Child %d created\n",getpid() );
   a4:	e8 e9 02 00 00       	call   392 <getpid>
